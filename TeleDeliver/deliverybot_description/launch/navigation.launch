@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<launch>
+  <!-- Arguments -->
+  <arg name="move_forward_only" default="true"/>
+
+  <!-- AMCl -->
+    <include file="$(find deliverybot_description)/launch/amcl.launch">
+    </include>
+
+
+  <!-- Map server for Map-based Navigation-->
+ 
+	 <node pkg="map_server" name="map_server" type="map_server" args="$(find deliverybot_description)/maps/univ.yaml"/>
+     <!-- <node pkg="common_map_server" name="common_map_server" type="common_map_server" args="$(find deliverybot_description)/params/common_costmap.yaml"/>
+     <node pkg="global_map_server" name="global_map_server" type="global_map_server" args="$(find deliverybot_description)/maps/global_costmap.yaml"/>
+     <node pkg="local_map_server" name="local_map_server" type="local_map_server" args="$(find deliverybot_description)/maps/local_costmap.yaml"/> -->
+
+
+  <!-- rviz -->
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find deliverybot_description)/launch/urdf.rviz"/>
+
+  <!-- move_base -->
+  <include file="$(find deliverybot_description)/launch/move_base.launch">
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+</launch>
